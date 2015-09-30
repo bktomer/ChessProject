@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Libraries\zlib-1.2.5\include;D:\Libraries\iconv-1.9.2.win32\include;D:\Libraries\libxml2-2.7.8.win32\include;D:\Libraries\SDL-1.2.15\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Libraries\iconv-1.9.2.win32\lib;D:\Libraries\libxml2-2.7.8.win32\lib;D:\Libraries\zlib-1.2.5\lib;D:\Libraries\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\EvgenyA\Documents\Visual Studio 2013\Projects\ExternalLibs\zlib-1.2.5\include;C:\Users\EvgenyA\Documents\Visual Studio 2013\Projects\ExternalLibs\iconv-1.9.2.win32\include;C:\Users\EvgenyA\Documents\Visual Studio 2013\Projects\ExternalLibs\libxml2-2.7.8.win32\include;C:\Users\EvgenyA\Documents\Visual Studio 2013\Projects\ExternalLibs\SDL-1.2.15\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\EvgenyA\Documents\Visual Studio 2013\Projects\ExternalLibs\iconv-1.9.2.win32\lib;C:\Users\EvgenyA\Documents\Visual Studio 2013\Projects\ExternalLibs\libxml2-2.7.8.win32\lib;C:\Users\EvgenyA\Documents\Visual Studio 2013\Projects\ExternalLibs\zlib-1.2.5\lib;C:\Users\EvgenyA\Documents\Visual Studio 2013\Projects\ExternalLibs\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
