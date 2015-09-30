@@ -1535,15 +1535,16 @@ int scoringFunc(char curr_board[BOARD_SIZE][BOARD_SIZE], char playing_color, pos
 			}
 		}
 	}
-	if (isTie('W', w_king_pos, b_king_pos) || isTie('B', w_king_pos, b_king_pos)){
-		return -500;
-	}
+	
 	if (playing_color == 'W'){
 		if (isMate('W', curr_board, w_king_pos, b_king_pos)){
 			return 1000;
 		}
 		else if (isMate('B', curr_board, w_king_pos, b_king_pos)){
 			return -1000;
+		}
+		else if (isTie('B', w_king_pos, b_king_pos)){
+			return -500;
 		}
 		else{
 			return (total_WS - total_BS);
@@ -1555,6 +1556,9 @@ int scoringFunc(char curr_board[BOARD_SIZE][BOARD_SIZE], char playing_color, pos
 		}
 		else if (isMate('B', curr_board, w_king_pos, b_king_pos)){
 			return 1000;
+		}
+		else if (isTie('W', w_king_pos, b_king_pos)){
+			return -500;
 		}
 		else{
 			return (total_BS - total_WS);

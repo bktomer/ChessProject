@@ -45,9 +45,11 @@ int alphabeta(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE], int d
 		score = INT_MIN;
 		while (curr_move != NULL){
 			boardCopy(curr_board, board_cpy);
-			actualBoardUpdate(curr_move, board_cpy, playing_color, white_king_pos, black_king_pos);
+			position w_k_pos_cpy = { white_king_pos->x, white_king_pos->y, NULL };
+			position b_k_pos_cpy = { black_king_pos->x, black_king_pos->y, NULL };
+			actualBoardUpdate(curr_move, board_cpy, playing_color, &w_k_pos_cpy, &b_k_pos_cpy);
 			score = MAX(score,alphabeta(OppositeColor(playing_color), board_cpy, depth - 1, alpha, beta,
-				!maximizing,white_king_pos,black_king_pos));
+				!maximizing, &w_k_pos_cpy, &b_k_pos_cpy));
 			alpha = MAX(alpha, score);
 			if (beta <= alpha){
 				break;
@@ -62,9 +64,11 @@ int alphabeta(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE], int d
 		score = INT_MAX;
 		while (curr_move != NULL){
 			boardCopy(curr_board, board_cpy);
-			actualBoardUpdate(curr_move, board_cpy, playing_color, white_king_pos, black_king_pos);
+			position w_k_pos_cpy = { white_king_pos->x, white_king_pos->y, NULL };
+			position b_k_pos_cpy = { black_king_pos->x, black_king_pos->y, NULL };
+			actualBoardUpdate(curr_move, board_cpy, playing_color, &w_k_pos_cpy, &b_k_pos_cpy);
 			score = MIN(score, alphabeta(OppositeColor(playing_color), board_cpy, depth - 1, alpha, beta,
-				!maximizing, white_king_pos, black_king_pos));
+				!maximizing, &w_k_pos_cpy, &b_k_pos_cpy));
 			beta = MIN(beta, score);
 			if (beta <= alpha){
 				break; 
