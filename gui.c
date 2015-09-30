@@ -169,7 +169,7 @@ SDL_Event event;
 /*
 * Freeing all available SDL resources
 */
-void freeAllSDL(){
+void freeAll(){
 	//Free the following surfaces
 	SDL_FreeSurface(chess_logo);
 	SDL_FreeSurface(background);
@@ -268,14 +268,7 @@ void freeAllSDL(){
 	SDL_FreeSurface(click_tr_button);
 	SDL_FreeSurface(game_saved_logo);
 
-
 	SDL_FreeSurface(screen);
-}
-/*
-* Freeing all available resources
-*/
-void freeAll(){
-	freeAllSDL();
 }
 
 /*
@@ -359,16 +352,18 @@ SDL_Surface *load_image(char* filename)
 	return optimizedImage;
 }
 
-
+/*
+* Concatenating two strings
+*/
 char* concat(char* s1, char* s2)
 {
-	char* result = calloc(strlen(s1) + strlen(s2) + 1,sizeof(char));//+1 for the zero-terminator
+	char* result = calloc(strlen(s1) + strlen(s2) + 1,sizeof(char)); //+1 for the zero-terminator
 	validate(result, "concat");
 	int i;
-	for ( i = 0; i < strlen(s1); i++){
+	for ( i = 0; i < (int)strlen(s1); i++){
 		result[i] = s1[i];
 	}
-	for (int j = 0; j < strlen(s2); j++){
+	for (int j = 0; j < (int)strlen(s2); j++){
 		result[i++] = s2[j];
 	}
 	return result;
@@ -1900,7 +1895,7 @@ void loadGameWindow(){
 		|| WB == NULL || WQ == NULL || WP == NULL || WR == NULL || BK == NULL || BN == NULL || BB == NULL || BQ == NULL || BP == NULL || BR == NULL || WS == NULL || BS == NULL
 		|| check_logo == NULL || mate_w_logo == NULL || mate_b_logo == NULL || tie_logo == NULL || illegal_move_logo == NULL || bestmove_button == NULL || thinking_label== NULL
 		|| WK_S == NULL || WN_S == NULL || WB_S == NULL || WQ_S == NULL || WP_S == NULL || WR_S == NULL || BK_S == NULL || BN_S == NULL || BB_S == NULL || BQ_S == NULL || BP_S == NULL 
-		|| BR_S == NULL || WS_S == NULL || BS_S == NULL)
+		|| BR_S == NULL || WS_S == NULL || BS_S == NULL || last_move_button == NULL)
 	{
 		printf("ERROR: unable to load bitmap: %s\n", SDL_GetError());
 		freeAll();
@@ -1985,7 +1980,7 @@ void loadGameWindow(){
 			drawboard();
 		}
 		
-		else if (isTie('W', white_kingpos, black_kingpos) || isTie('B', white_kingpos, black_kingpos)){
+		else if (isTie(OppositeColor(playing_color), board, white_kingpos, black_kingpos)){
 			//graphical print of a tie
 			apply_surface(220, 250, tie_logo, screen);
 			safe_SDL_Flip(screen);
@@ -2153,7 +2148,7 @@ void loadGameWindow(){
 					drawboard();
 					game_over = 1;
 				}
-				if (!game_over && (isTie('W', white_kingpos, black_kingpos) || isTie('B', white_kingpos, black_kingpos))){
+				if (!game_over && (isTie(playing_color, board, white_kingpos, black_kingpos))){
 					//graphical print of a tie
 					apply_surface(220, 250, tie_logo, screen);
 					safe_SDL_Flip(screen);

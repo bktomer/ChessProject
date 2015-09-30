@@ -23,11 +23,11 @@ int main(int argc, char* argv[]){
 		SettingsMode();
 	}*/
 	init_board();
-	SettingsMode();
-	//initSDL();
-	//loadMainWindow();
-	//freeAll();
-	//SDL_Quit();
+	//SettingsMode();
+	initSDL();
+	loadMainWindow();
+	freeAll();
+	SDL_Quit();
 	return 0;
 }
 

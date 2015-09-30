@@ -84,9 +84,11 @@ extern char user_color;
 extern char board[BOARD_SIZE][BOARD_SIZE];
 extern moves* best_moves;
 
-
 extern position* white_kingpos;
 extern position* black_kingpos;
+/*
+* Validates if memory alocated succesfuly
+*/
 void validate(void* object, char * func_name);
 void freePositions(position* pos);
 void freeMoves(move* move);
@@ -181,8 +183,20 @@ checks if the playing_color king is threatend by a king
 */
 int isThreatenedByKing(position king_pos, char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE]);
 
-void removeBadMoves(moves* all_moves, char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE], position* white_king_pos, position* black_king_pos);
-int isTie(char playing_color, position* white_king_pos, position* black_king_pos);
+void removeBadMoves(moves* all_moves, char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE],
+	position* white_king_pos, position* black_king_pos);
+
+/*
+* Checking if the game has ended in a Tie
+*/
+int isTie(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE], position* w_king_pos, position* b_king_pos);
+
+/*
+* check if there is a legal move
+*/
+int LegalMoveExists(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE], position* w_king_pos, position* b_king_pos);
+
+
 /*
 * Checking if there was a check performed by "playing_color" player
 */

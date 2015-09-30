@@ -330,20 +330,20 @@ void gamingMode() {
 			}
 			if (board[i][j] == WHITE_K) {
 				white_kingpos = calloc(1, sizeof(position));
-				validate(white_kingpos, "loadGameWindow");
+				validate(white_kingpos, "gamingMode");
 				initPosition(white_kingpos, j + 97, i + 1);
 				w_k_found = 1;
 			}
 			else if (board[i][j] == BLACK_K){
 				black_kingpos = calloc(1, sizeof(position));
-				validate(black_kingpos, "loadGameWindow");
+				validate(black_kingpos, "gamingMode");
 				initPosition(black_kingpos, j + 97, i + 1);
 				b_k_found = 1;
 			}
 		}
 	}
 	int game_over = gameOver(1, OppositeColor(playing_color));
-	int first_iter = 1;
+	
 	while (!game_over) {
 		
 		if (player1 || player2) {
@@ -412,6 +412,12 @@ void gamingMode() {
 				minimax_depth = d;
 				position* current_pos = createPos(input[3]);
 				move* m = createMoveFromInput(current_pos, input[5], input[6]);
+				if (!isLegalMove(m, playing_color)){
+					print_message(ILLEGAL_MOVE);
+					freeMoves(m);				
+					minimax_depth = last_minimax_depth;
+					continue;
+				}
 				int move_score = getMoveScore(playing_color, m);
 				minimax_depth = last_minimax_depth;
 				printf("%d\n", move_score);

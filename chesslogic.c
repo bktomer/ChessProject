@@ -15,7 +15,7 @@ position* black_kingpos;
 void validate(void* object, char * func_name){
 	if (object == NULL) {
 		perror_message(func_name);
-		exit(0);
+		exit(1);
 	}
 }
 /*
@@ -82,16 +82,10 @@ void init_board(){
 */
 char** getInput() {
 	char ** input = calloc(INPUT_SIZE, sizeof(char*));
-	if (input == NULL) {
-		perror_message("getInput");
-		exit(0);
-	}
+	validate(input, "getInput");
 	int i = 0, j = 1, k = 0;
 	char* word = calloc(1, sizeof(char));
-	if (word == NULL) {
-		perror_message("getInput");
-		exit(0);
-	}
+	validate(word, "getInput");
 	char c = '\0';
 	while (c != '\n')
 	{
@@ -100,11 +94,7 @@ char** getInput() {
 			word[i] = '\0';
 			input[k++] = word;
 			word = calloc(1, sizeof(char));
-			if (word == NULL) {
-				perror_message("getInput");
-				exit(0);
-			}
-			assert(word != NULL);
+			validate(word, "getInput");
 			j = 1, i = 0;
 			continue;
 		}
@@ -113,10 +103,7 @@ char** getInput() {
 		}
 		j++;
 		word = (char*)realloc(word, j*sizeof(char));
-		if (word == NULL) {
-			perror_message("getInput");
-			exit(0);
-		}
+		validate(word, "getInput");
 		word[i] = c;
 		i++;
 	}
@@ -494,18 +481,9 @@ int isMate(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE],position*
 	if (!isCheck(playing_color, curr_board, w_king_pos, b_king_pos)){
 		return 0;
 	}
+	int ret = !LegalMoveExists(OppositeColor(playing_color), curr_board, w_king_pos, b_king_pos);
+	return ret;
 	
-	moves * opp_moves = getMoves(OppositeColor(playing_color), curr_board, w_king_pos, b_king_pos);
-	move * head = opp_moves->head;
-	if (head == NULL){
-		free(opp_moves);
-		return 1;
-	}
-	else{
-		freeMoves(opp_moves->head);
-		free(opp_moves);
-		return 0;
-	}
 }
 
 /*
@@ -519,7 +497,7 @@ int gameOver(int print_bit, char playing_color){
 		}
 		return 1;
 	}
-	if (isTie(playing_color, white_kingpos, black_kingpos)){
+	if (isTie(playing_color,board, white_kingpos, black_kingpos)){
 		if (print_bit){
 			printf("The game ends in a tie\n");
 		}
@@ -801,7 +779,7 @@ move* createMoveFromInput(position* current_pos, char* input2, char* input3){
 		new_move->promotion = calloc(len + 1, sizeof(char));
 		validate(new_move->promotion, "createMoveFromInput");
 		strcpy(new_move->promotion, input3);
-		new_move->promotion[len + 1] = '\0';
+		new_move->promotion[len] = '\0';
 	}
 	return new_move;
 }
@@ -1392,12 +1370,12 @@ moves* getAllMoves(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE]){
 	moves* pos_moves = NULL;
 	move* temp_head = NULL;
 	all_moves = calloc(1, sizeof(moves));
-	validate(all_moves, "getMoves");
+	validate(all_moves, "getAllMoves");
 
 	for (int i = 0; i < BOARD_SIZE; i++){
 		for (int j = 0; j < BOARD_SIZE; j++){
 			curr_pos = calloc(1, sizeof(position));
-			validate(curr_pos, "getMoves");
+			validate(curr_pos, "getAllMoves");
 			initPosition(curr_pos, j + 97, i + 1);
 			if (isSameColor(playing_color, curr_pos, curr_board)){
 				pos_moves = getMovesFromPosition(playing_color, curr_board, curr_pos);
@@ -1423,23 +1401,60 @@ moves * getMoves(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE], po
 }
 
 
+
+/*
+* check if there is a legal move
+*/
+int LegalMoveExists(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE], position* w_king_pos, position* b_king_pos){
+	position* curr_pos = NULL;
+	moves* pos_moves = NULL;
+	move* temp_head = NULL;
+	char board_cpy[BOARD_SIZE][BOARD_SIZE];
+	for (int i = 0; i < BOARD_SIZE; i++){
+		for (int j = 0; j < BOARD_SIZE; j++){
+			curr_pos = calloc(1, sizeof(position));
+			validate(curr_pos, "LegalMoveExists");
+			initPosition(curr_pos, j + 97, i + 1);
+			if (isSameColor(playing_color, curr_pos, curr_board)){
+				pos_moves = getMovesFromPosition(playing_color, curr_board, curr_pos);
+				if (pos_moves->head != NULL){
+					temp_head = pos_moves->head;
+					while (temp_head != NULL){
+						boardCopy(curr_board, board_cpy);
+						position w_k_pos_cpy = { w_king_pos->x, w_king_pos->y, NULL };
+						position b_k_pos_cpy = { b_king_pos->x, b_king_pos->y, NULL };
+						actualBoardUpdate(temp_head, board_cpy, playing_color, &w_k_pos_cpy, &b_k_pos_cpy);
+						//if this is a legal move then return 1.
+						if (!isCheck(OppositeColor(playing_color), board_cpy, &w_k_pos_cpy, &b_k_pos_cpy)){
+							freeMoves(pos_moves->head);
+							free(pos_moves);
+							freePositions(curr_pos);
+							return 1;
+						}
+						temp_head = temp_head->next;
+					}
+				}
+				freeMoves(pos_moves->head);
+				free(pos_moves);
+			}
+			freePositions(curr_pos);
+		}
+	}
+	return 0;
+}
+
 /*
 * Checking if the game has ended in a Tie
 */
-int isTie(char playing_color, position* w_king_pos,position* b_king_pos){
-	if (isCheck(playing_color, board, w_king_pos, b_king_pos)) {
+int isTie(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE], position* w_king_pos, position* b_king_pos){
+
+	if (isCheck(playing_color, curr_board, w_king_pos, b_king_pos)) {
 		return 0;
 	}
-	moves* possible_moves = getMoves(OppositeColor(playing_color), board, w_king_pos, b_king_pos);
 	// in case playing_color's opponent don't have moves after the playing_color's move , there is a tie.
-	if (possible_moves->head == NULL) {
-		free(possible_moves);
-		return 1;
-	}
-
-	freeMoves(possible_moves->head);
-	free(possible_moves);
-	return 0;
+	int retval = LegalMoveExists(OppositeColor(playing_color), curr_board, w_king_pos, b_king_pos);
+	return  !retval;
+	
 }
 
 /*
@@ -1543,7 +1558,7 @@ int scoringFunc(char curr_board[BOARD_SIZE][BOARD_SIZE], char playing_color, pos
 		else if (isMate('B', curr_board, w_king_pos, b_king_pos)){
 			return -1000;
 		}
-		else if (isTie('B', w_king_pos, b_king_pos)){
+		else if (isTie('B',curr_board ,w_king_pos, b_king_pos)){
 			return -500;
 		}
 		else{
@@ -1557,7 +1572,7 @@ int scoringFunc(char curr_board[BOARD_SIZE][BOARD_SIZE], char playing_color, pos
 		else if (isMate('B', curr_board, w_king_pos, b_king_pos)){
 			return 1000;
 		}
-		else if (isTie('W', w_king_pos, b_king_pos)){
+		else if (isTie('W',curr_board, w_king_pos, b_king_pos)){
 			return -500;
 		}
 		else{
