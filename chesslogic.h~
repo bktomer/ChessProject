@@ -1,8 +1,5 @@
-
 #ifndef chesslogicH
-
 #define chesslogicH
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -198,13 +195,8 @@ move* createMoveFromInput(position* current_pos, char* input2, char* input3);
 * create move from (x,y) to (x+ x_offset, y+ y_offset)
 */
 move* CreateMove(position * current_pos, int x_offset , int y_offset);
-/*
-* get all possible moves from a given positiion at the board
-*/
+
 moves* getMovesFromPosition(char playing_color, char board[BOARD_SIZE][BOARD_SIZE], position* current_pos);
-/*
-* Getting all possible legal moves for a current player
-*/
 moves* getMoves(char playing_color, char board[BOARD_SIZE][BOARD_SIZE], position* white_king_pos, position* black_king_pos);
 /*
 * Concating a move to a list of moves
@@ -290,13 +282,8 @@ int isMate(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE], position
 * Creating a copy of a given move
 */
 move* copyMove(move* curr_move);
-/*
-* Checking if the given move is legal
-*/
 int isLegalMove(move* move1, char playing_color);
-/*
-* Computing a score for each move according to the pieces on the board
-*/
 int scoringFunc(char curr_board[BOARD_SIZE][BOARD_SIZE], char playing_color, position* white_king_pos, position* black_king_pos);
+
 
 #endif

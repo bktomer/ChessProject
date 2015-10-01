@@ -25,4 +25,4 @@ minimax.o: minimax.c minimax.h chesslogic.h
 	gcc  -std=c99 -pedantic-errors -c -Wall -g -lm minimax.c `sdl-config --cflags` `xml2-config --cflags`
 
 clean:
-	-rm -f $(O_FILES) $(TARGET)
+	-rm $(O_FILES) $(TARGET)

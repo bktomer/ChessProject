@@ -519,7 +519,6 @@ void SettingsMode() {
 	while (strcmp(input[0], "quit")){
 
 		if (!strcmp(input[0], "game_mode")){
-			int last_game_mode = game_mode;
 			game_mode = (int)strtol(input[1], (char **)NULL, 10);
 			if (game_mode == 1){
 				print_message(TWO_PLAYERS_GAME_MODE);
@@ -528,7 +527,7 @@ void SettingsMode() {
 				print_message(PLAYER_VS_AI_GAME_MODE);
 			}
 			else{
-				game_mode = last_game_mode;
+				game_mode = 1;
 				print_message(WRONG_GAME_MODE);
 			}
 		}

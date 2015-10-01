@@ -28,9 +28,6 @@ int alphabeta(char playing_color, char curr_board[BOARD_SIZE][BOARD_SIZE], int d
 	int maximizing, position * white_king_pos, position* black_king_pos) {
 
 	if (depth == 0 ){
-		if (isTie(OppositeColor(playing_color),curr_board, white_king_pos, black_king_pos)){
-			return -500;
-		}
 		return maximizing ? scoringFunc(curr_board, playing_color,white_king_pos,black_king_pos):
 			scoringFunc(curr_board, OppositeColor(playing_color), white_king_pos, black_king_pos);
 	}

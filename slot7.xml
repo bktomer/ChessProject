@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <game>
-<game_mode>2</game_mode>
-<user_color>White</user_color>
-<next_turn>White</next_turn>
-<difficulty>4</difficulty>
-<board>
-<row_8>RNB_KBNR</row_8>
-<row_7>MMMM_M__</row_7>
-<row_6>______MM</row_6>
-<row_5>________</row_5>
-<row_4>__b__m__</row_4>
-<row_3>________</row_3>
-<row_2>mmmmn__m</row_2>
-<row_1>rnbqk__Q</row_1>
-</board>
+  <next_turn>Black</next_turn>
+  <game_mode>2</game_mode>
+  <difficulty>4</difficulty>
+  <user_color>Black</user_color>
+  <board>
+    <row_8>R_B_KB_R</row_8>
+    <row_7>MMQ__M__</row_7>
+    <row_6>__M_Mq_M</row_6>
+    <row_5>________</row_5>
+    <row_4>__b___N_</row_4>
+    <row_3>____b__n</row_3>
+    <row_2>_mm___mm</row_2>
+    <row_1>___r_rk_</row_1>
+  </board>
 </game>

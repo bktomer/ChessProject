@@ -1,6 +1,5 @@
 #include "gui.h"
 
-//All the SDL surfaces that are being used during the program execution
 SDL_Surface* chess_logo = NULL;
 SDL_Surface* background = NULL;
 SDL_Surface* screen = NULL;
@@ -95,32 +94,29 @@ SDL_Surface* slot7_button = NULL;
 SDL_Surface* click_tr_button = NULL;
 SDL_Surface* game_saved_logo = NULL;
 
-//Areas of all the buttons that are used in the UI
 SDL_Rect NG_button = { 550, 150, 204, 54 };
 SDL_Rect LG_button = { 550, 250, 204, 54 };
 SDL_Rect Q_button = { 550, 350, 204, 54 };
 SDL_Rect PVP_button = { 270, 150, 212, 50 };
 SDL_Rect PVC_button = { 490, 150, 212, 50 };
 SDL_Rect Cancel_button = { 490, 400, 212, 50 };
-//set the board button
 SDL_Rect STB_button = { 490, 330, 212, 50 };
-//white and black color buttons
 SDL_Rect W_button = { 270, 220, 212, 50 };
 SDL_Rect B_button = { 490, 220, 212, 50 };
-//minimax depth+return buttons
 SDL_Rect D1_button = { 250, 170, 75, 50 };
 SDL_Rect D2_button = { 330, 170, 75, 50 };
 SDL_Rect D3_button = { 410, 170, 75, 50 };
 SDL_Rect D4_button = { 490, 170, 75, 50 };
 SDL_Rect BD_button = { 570, 170, 212, 50 };
 SDL_Rect return_AI_button = { 390, 310, 285, 50 };
+
 SDL_Rect D1_M_button = { 140, 220, 75, 50 };
 SDL_Rect D2_M_button = { 220, 220, 75, 50 };
 SDL_Rect D3_M_button = { 300, 220, 75, 50 };
 SDL_Rect D4_M_button = { 380, 220, 75, 50 };
 SDL_Rect BD_M_button = { 460, 220, 212, 50 };
 SDL_Rect return_M_button = { 390, 300, 285, 50 };
-//AI and Game window buttons and logos
+
 SDL_Rect W_AI_button = { 300, 240, 212, 50 };
 SDL_Rect B_AI_button = { 530, 240, 212, 50 };
 SDL_Rect SG_button = { 610, 0, 190, 50 };
@@ -130,7 +126,7 @@ SDL_Rect CB_logo = { 0, 0, 600, 600 };
 SDL_Rect bm_button = { 610, 200, 190, 50 };
 SDL_Rect lm_button = {610, 300, 190, 50};
 SDL_Rect start_PSW_button = { 270, 330, 212, 50 };
-//save slot buttons
+
 SDL_Rect s1_button = { 150, 200, 212, 50 };
 SDL_Rect s2_button = { 150, 270, 212, 50 };
 SDL_Rect s3_button = { 150, 340, 212, 50 };
@@ -139,28 +135,30 @@ SDL_Rect s5_button = { 450, 270, 212, 50 };
 SDL_Rect s6_button = { 450, 340, 212, 50 };
 SDL_Rect s7_button = { 450, 410, 212, 50 };
 SDL_Rect ctr_button = { 250, 550, 285, 50 };
-//chess pieces areas in board setting window
+
+
 SDL_Rect WP_box = { 620, 0 , 75 , 75 };
 SDL_Rect WN_box = { 620, 80, 75, 75 };
 SDL_Rect WR_box = { 620, 160, 75, 75 };
 SDL_Rect WB_box = { 620, 240, 75, 75 };
 SDL_Rect WQ_box = { 620, 320, 75, 75 };
 SDL_Rect WK_box = { 620, 400, 75, 75 };
+
 SDL_Rect BP_box = { 700, 0, 75, 75 };
 SDL_Rect BN_box = { 700, 80, 75, 75 };
 SDL_Rect BR_box = { 700, 160, 75, 75 };
 SDL_Rect BB_box = { 700, 240, 75, 75 };
 SDL_Rect BQ_box = { 700, 320, 75, 75 };
 SDL_Rect BK_box = { 700, 400, 75, 75 };
-//"save and return" and "clear" button areas
 SDL_Rect sat_button = { 607, 550, 190, 50 };
 SDL_Rect clr_button = { 607, 480, 190, 50 };
-//promotion button areas
+
+//promotions buttons
 SDL_Rect KP_button = { 610, 100, 190, 50 };
 SDL_Rect BP_button = { 610, 175, 190, 50 };
 SDL_Rect RP_button = { 610, 250, 190, 50 };
 SDL_Rect QP_button = { 610, 325, 190, 50 };
-//thinking label area
+
 SDL_Rect thinking_button = { 610, 400, 200, 60 };
 
 SDL_Event event;
@@ -272,7 +270,6 @@ void safe_SDL_SetColorKey(SDL_Surface* surface, int R, int G, int B){
 	if (SDL_SetColorKey(surface, SDL_SRCCOLORKEY, SDL_MapRGB(surface->format, R, G, B)) != 0) {
 		printf("ERROR: failed to set color key: %s\n", SDL_GetError());
 		freeAll();
-		SDL_Quit();
 		exit(1);
 	}
 }
@@ -286,7 +283,6 @@ void safe_SDL_Flip(SDL_Surface* surface){
 		{
 			printf("ERROR: failed to flip buffer: %s\n", SDL_GetError());
 			freeAll();
-			SDL_Quit();
 			exit(1);
 		}
 	}
@@ -306,7 +302,6 @@ void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
 	if (SDL_BlitSurface(source, NULL, destination, &offset) != 0){
 		printf("ERROR: failed to blit image: %s\n", SDL_GetError());
 		freeAll();
-		SDL_Quit();
 		exit(1);
 	}
 }
@@ -316,6 +311,7 @@ void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
 int xyInRect(int x, int y, SDL_Rect rect){
 	return ((x > rect.x) && (x < rect.x + rect.w) && (y > rect.y) && (y < rect.y + rect.h));
 }
+
 
 /*
 * Loading bitmaps function
@@ -962,7 +958,6 @@ void loadBoardSettingWindow(){
 	if (SDL_FillRect(screen, 0, SDL_MapRGB(screen->format,255,255,255)) != 0) {
 		printf("ERROR: failed to draw rect: %s\n", SDL_GetError());
 		freeAll();
-		SDL_Quit();
 		exit(1);
 	}
 	//Load the relevant images 
@@ -1425,7 +1420,7 @@ void loadSaveGameOrLoadGameWindow(int save_bit){
 						else{
 							if (loadSettingsFromFile("slot6.xml",0)){
 								loadPlayersSelectionWindow();
-					}
+							}
 							else{
 								apply_surface(450, 340, ns_logo, screen);
 							}
@@ -1680,7 +1675,6 @@ void actualGUIBoardUpdate(move* current_move, char curr_board[BOARD_SIZE][BOARD_
 		if (SDL_FillRect(screen, 0, 0) != 0) {
 			printf("ERROR: failed to draw rect: %s\n", SDL_GetError());
 			freeAll();
-			SDL_Quit();
 			exit(1);
 		}
 		//Load the relevant images 
@@ -1769,7 +1763,6 @@ void actualGUIBoardUpdate(move* current_move, char curr_board[BOARD_SIZE][BOARD_
 		if (SDL_FillRect(screen, 0, 0) != 0) {
 			printf("ERROR: failed to draw rect: %s\n", SDL_GetError());
 			freeAll();
-			SDL_Quit();
 			exit(1);
 		}
 		//Apply the chessboard to the screen
@@ -1830,7 +1823,6 @@ void loadGameWindow(){
 	if (SDL_FillRect(screen, 0, 0) != 0) {
 		printf("ERROR: failed to draw rect: %s\n", SDL_GetError());
 		freeAll();
-		SDL_Quit();
 		exit(1);
 	}
 	//Load the relevant images 
@@ -2037,12 +2029,7 @@ void loadGameWindow(){
 							playing_color = playingColor(player1, player2);
 							apply_surface(610, 400, thinking_label, screen);
 							safe_SDL_Flip(screen);
-							if (SDL_FillRect(screen, &thinking_button, 0x000000) != 0) {
-								printf("ERROR: failed to draw rect: %s\n", SDL_GetError());
-								freeAll();
-								SDL_Quit();
-								exit(1);
-							}
+							SDL_FillRect(screen, &thinking_button, 0x000000);
 							best_poss_moves = getBestMoves(playing_color);
 							best_move_pressed = 1;
 						}
@@ -2138,12 +2125,7 @@ void loadGameWindow(){
 					best_moves->head = computer_move->next;
 					actualBoardUpdate(computer_move, board, playing_color, white_kingpos, black_kingpos);
 					drawboard();
-					if (SDL_FillRect(screen, &thinking_button, 0x000000) != 0) {
-						printf("ERROR: failed to draw rect: %s\n", SDL_GetError());
-						freeAll();
-						SDL_Quit();
-						exit(1);
-					}
+					SDL_FillRect(screen, &thinking_button, 0x000000);
 					freeMoves(best_moves->head);
 					free(best_moves);
 					last_move->next = NULL;

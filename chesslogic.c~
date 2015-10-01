@@ -580,7 +580,7 @@ int WrongInitialization(){
 */
 void print_line(){
 	int i;
-	printf("  |");
+	printf(" |");
 	for (i = 1; i < BOARD_SIZE * 4; i++){
 		printf("-");
 	}

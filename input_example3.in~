@@ -17,4 +17,3 @@ set <b,8> white bishop
 start
 get_best_moves 2
 move <b,8> to <c,7>
-
