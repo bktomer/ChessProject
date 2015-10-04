@@ -1,8 +1,16 @@
 #ifndef minimaxH
 #define minimaxH
 
-#define MAX_POSS_MOVES 27
+
 #include "chesslogic.h"
+
+#define PIECES_TYPES_NUM 6 
+
+/*
+* 0=rook ; 1=knight ; 2=bishop ; 3=queen ; 4=king ; 5=pawn
+*/
+extern int max_poss_moves[PIECES_TYPES_NUM];
+
 /*
 * Minimax function - finding the score of the best move possible from the input board
 */

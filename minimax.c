@@ -1,6 +1,12 @@
 #include "minimax.h"
 
 /*
+* 0=rook ; 1=knight ; 2=bishop ; 3=queen ; 4=king ; 5=pawn
+*/
+int max_poss_moves[PIECES_TYPES_NUM] = {14,8,13,27,8,6};
+
+
+/*
 * Calculating the max depth that doesn't calculate more than 10^6 boards during the minimax algorithm
 */
 int bestDepth(char curr_board[BOARD_SIZE][BOARD_SIZE], char playing_color){
@@ -8,7 +14,7 @@ int bestDepth(char curr_board[BOARD_SIZE][BOARD_SIZE], char playing_color){
 	int* pieces = piecesCounter(playing_color);
 	int total_poss_moves = 0;
 	for (int i = 0; i < 6; i++){
-		total_poss_moves += pieces[i] * MAX_POSS_MOVES; //Upper bound on the number of possible moves in depth 1
+		total_poss_moves += pieces[i] * max_poss_moves[i]; //Upper bound on the number of possible moves in depth 1
 	}
 	int depth=2;
 	while (1){

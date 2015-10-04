@@ -589,7 +589,7 @@ void loadPlayersSelectionWindow(){
 }
 
 /*
-* Loading a window to choose a minimax depth for the Best Move (for a user who chose to play Player vs. Player game mode)
+* Loading a window to choose a minimax depth for the Best Move (for a user who choose to play Player vs. Player game mode)
 */
 void loadMinimaxDepthWindow(){
 	apply_surface(0, 0, background, screen);
@@ -1172,6 +1172,13 @@ void loadBoardSettingWindow(){
 				break;
 			}
 
+			//pieces are moves only with drag and drop
+			if (button_up && !button_down) {
+				Mcol = Mrow = 0;
+				button_up = 0;
+				continue;
+			}
+			
 			if ((button_up && button_down) || board_updated){
 				//If piece was selected and dragged from outside to the chessboard
 				if (piece_clicked){
