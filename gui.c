@@ -33,7 +33,6 @@ SDL_Surface* depth_3_s_button = NULL;
 SDL_Surface* depth_4_button = NULL;
 SDL_Surface* depth_4_s_button = NULL;
 SDL_Surface* start_the_game_button = NULL;
-SDL_Surface* cmd_logo = NULL;
 SDL_Surface* thinking_label = NULL;
 SDL_Surface* chessboard = NULL;
 SDL_Surface* mainmenu_button = NULL;
@@ -124,11 +123,17 @@ SDL_Rect return_M_button = { 390, 300, 285, 50 };
 SDL_Rect W_AI_button = { 300, 240, 212, 50 };
 SDL_Rect B_AI_button = { 530, 240, 212, 50 };
 SDL_Rect SG_button = { 610, 0, 190, 50 };
-SDL_Rect MM_button = { 610, 100, 190, 50 };
+SDL_Rect MM_button = { 610, 90, 190, 50 };
 SDL_Rect Q_GW_button = { 610, 550, 190, 50 };
 SDL_Rect CB_logo = { 0, 0, 600, 600 };
-SDL_Rect bm_button = { 610, 200, 190, 50 };
-SDL_Rect lm_button = {610, 300, 190, 50};
+SDL_Rect bm_button = { 610, 180, 190, 100 };
+SDL_Rect bm_diff1 = { 610, 230, 38, 50 };
+SDL_Rect bm_diff2 = { 648, 230, 38, 50 };
+SDL_Rect bm_diff3 = { 686, 230, 38, 50 };
+SDL_Rect bm_diff4 = { 724, 230, 38, 50 };
+SDL_Rect bm_diff_best = { 762, 230, 38, 50 };
+
+SDL_Rect lm_button = {610, 320, 190, 50};
 SDL_Rect start_PSW_button = { 270, 330, 212, 50 };
 //save slot buttons
 SDL_Rect s1_button = { 150, 200, 212, 50 };
@@ -201,7 +206,6 @@ void freeAll(){
 	SDL_FreeSurface(depth_4_s_button);
 	SDL_FreeSurface(best_depth_s_button);
 	SDL_FreeSurface(start_the_game_button);
-	SDL_FreeSurface(cmd_logo);
 	SDL_FreeSurface(set_and_ret_button);
 	SDL_FreeSurface(clear_button);
 	SDL_FreeSurface(wb_init_logo);
@@ -542,7 +546,8 @@ void loadPlayersSelectionWindow(){
 					{
 						//Set game mode to player vs. player and load window to choose minimax depth for the best move option
 						game_mode = 1;
-						loadMinimaxDepthWindow();
+						apply_surface(490, 150, pvc_button, screen);
+						apply_surface(270, 150, pvp_s_button, screen);
 					}
 					if (xyInRect(x, y, PVC_button))
 					{
@@ -590,7 +595,7 @@ void loadPlayersSelectionWindow(){
 
 /*
 * Loading a window to choose a minimax depth for the Best Move (for a user who choose to play Player vs. Player game mode)
-*/
+
 void loadMinimaxDepthWindow(){
 	apply_surface(0, 0, background, screen);
 	apply_surface(250, 0, chess_logo, screen);
@@ -754,6 +759,7 @@ void loadMinimaxDepthWindow(){
 	SDL_Quit();
 	exit(0);
 }
+*/
 
 /*
 * Loading AI Settings window
@@ -1913,11 +1919,11 @@ void loadGameWindow(){
 	//Apply the save game button to the screen
 	apply_surface(610, 0, savegame_button, screen);
 	//Apply the main menu button to the screen
-	apply_surface(610, 100, mainmenu_button, screen);
+	apply_surface(610, 90, mainmenu_button, screen);
 	//Apply the best move  button to the screen
-	apply_surface(610, 200, bestmove_button, screen);
+	apply_surface(610, 180, bestmove_button, screen);
 	//Apply the last move  button to the screen
-	apply_surface(610, 300, last_move_button, screen);
+	apply_surface(610, 320, last_move_button, screen);
 	//Apply the quit game button to the screen
 	apply_surface(610, 550, quit_game_button, screen);
 	//Drawing the pieces as they appear on the board
@@ -2039,8 +2045,28 @@ void loadGameWindow(){
 					}
 					if (xyInRect(x, y, bm_button) && !game_over && !(!player1 && !player2))
 					{
-						//Best move button was pressed for the first time in this turn
-						if (!best_move_pressed){
+						if (xyInRect(x, y, bm_diff1)) {
+							minimax_depth = 1;
+							best_move_pressed = 1;
+						}
+						else if (xyInRect(x, y, bm_diff2)) {
+							minimax_depth = 2;
+							best_move_pressed = 1;
+						}
+						else if (xyInRect(x, y, bm_diff3)) {
+							minimax_depth = 3;
+							best_move_pressed = 1;
+						}
+						else if (xyInRect(x, y, bm_diff4)) {
+							minimax_depth = 4;
+							best_move_pressed = 1;
+						}
+						else if (xyInRect(x, y, bm_diff_best)) {
+							minimax_depth = 0;
+							best_move_pressed = 1;
+						}
+						// user chose a difficulty and asked for the best move
+						if (best_move_pressed){
 							playing_color = playingColor(player1, player2);
 							apply_surface(610, 400, thinking_label, screen);
 							safe_SDL_Flip(screen);
@@ -2051,12 +2077,14 @@ void loadGameWindow(){
 								exit(1);
 							}
 							best_poss_moves = getBestMoves(playing_color);
-							best_move_pressed = 1;
+							//draw the move on the gui board
+							drawSelectedPieces(playing_color, best_poss_moves->head);
+							SDL_Delay(2000);
+							drawboard();
+							freeMoves(best_poss_moves->head);
+							free(best_poss_moves);
 						}
-						//draw the move on the gui board
-						drawSelectedPieces(playing_color, best_poss_moves->head);
-						SDL_Delay(2000);
-						drawboard();
+					
 					}
 					if (xyInRect(x, y, lm_button) && !game_over && last_move != NULL){
 						playing_color = playingColor(player1, player2);
@@ -2116,12 +2144,6 @@ void loadGameWindow(){
 					if (board_updated) {
 						freeMoves(last_move);
 						last_move = current_move;
-						//freeing the best move
-						if (best_move_pressed){
-							freeMoves(best_poss_moves->head);
-							free(best_poss_moves);
-							best_move_pressed = 0;
-						}
 						drawboard();
 						if (player1 && player2){
 							player1 = player2 = 0;

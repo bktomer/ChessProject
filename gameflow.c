@@ -503,7 +503,6 @@ int getMoveScore(char playing_color, move* curr_move){
 	else{
 		minimax_depth = bestDepth(board_cpy, playing_color);
 		score = alphabeta(OppositeColor(playing_color), board_cpy, minimax_depth - 1, INT_MIN, INT_MAX, 0, &white_king_pos_cpy, &black_king_pos_cpy);
-		printf("best depth is : %d\n", minimax_depth);
 		minimax_depth = 0;
 	}
 	return score;
