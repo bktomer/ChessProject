@@ -77,7 +77,7 @@ int loadSettingsFromFile(char* fp, int print_bit){
 	xmlDocPtr doc;
 	xmlNodePtr cur;
 	xmlChar* key;
-	doc = xmlReadFile(fp, NULL, 0);
+	doc = xmlReadFile(fp, NULL, XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
 	if (doc == NULL) {
 		print_message(WRONG_FILE_NAME);
 		return 0;
