@@ -1,17 +1,19 @@
-﻿Build started 24/09/2015 17:19:16.
-     1>Project "C:\Users\Tomer\documents\visual studio 2013\Projects\ChessProject\ChessProject\ChessProject.vcxproj" on node 2 (Build target(s)).
+﻿Build started 06/10/2015 18:14:28.
+     1>Project "C:\Users\Tomer\Source\Repos\ChessProject\ChessProject.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Visual Studio\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt chesslogic.c gameflow.c gui.c main.c minimax.c
-         chesslogic.c
+         D:\Visual Studio\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm- /EHsc /MD /GS /Gy /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt gameflow.c
          gameflow.c
-     1>c:\users\tomer\documents\visual studio 2013\projects\chessproject\chessproject\gameflow.h(8): fatal error C1083: Cannot open include file: 'libxml/tree.h': No such file or directory
-         gui.c
-     1>c:\users\tomer\documents\visual studio 2013\projects\chessproject\chessproject\gui.h(4): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
-         main.c
-     1>c:\users\tomer\documents\visual studio 2013\projects\chessproject\chessproject\gui.h(4): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
-         minimax.c
-     1>Done Building Project "C:\Users\Tomer\documents\visual studio 2013\Projects\ChessProject\ChessProject\ChessProject.vcxproj" (Build target(s)) -- FAILED.
+       Link:
+         D:\Visual Studio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Tomer\Source\Repos\ChessProject\Release\ChessProject.exe" /NOLOGO /LIBPATH:"D:\Libraries\zlib-1.2.5\lib" /LIBPATH:"D:\Libraries\iconv-1.9.2.win32\lib" /LIBPATH:"D:\Libraries\SDL-1.2.15\lib" /LIBPATH:"D:\Libraries\libxml2-2.7.8.win32\lib" "D:\Libraries\SDL-1.2.15\lib\x86\SDL.lib" "D:\Libraries\SDL-1.2.15\lib\x86\SDLmain.lib" "D:\Libraries\zlib-1.2.5\lib\zdll.lib" "D:\Libraries\zlib-1.2.5\lib\zlib.lib" "D:\Libraries\libxml2-2.7.8.win32\lib\libxml2.lib" "D:\Libraries\libxml2-2.7.8.win32\lib\libxml2_a.lib" "D:\Libraries\libxml2-2.7.8.win32\lib\libxml2_a_dll.lib" "D:\Libraries\iconv-1.9.2.win32\lib\iconv.lib" "D:\Libraries\iconv-1.9.2.win32\lib\iconv_a.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Tomer\Source\Repos\ChessProject\Release\ChessProject.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Tomer\Source\Repos\ChessProject\Release\ChessProject.lib" /MACHINE:X86 /SAFESEH Release\chesslogic.obj
+         Release\gameflow.obj
+         Release\gui.obj
+         Release\main.obj
+         Release\minimax.obj
+         Generating code
+         Finished generating code
+         ChessProject.vcxproj -> C:\Users\Tomer\Source\Repos\ChessProject\Release\ChessProject.exe
+     1>Done Building Project "C:\Users\Tomer\Source\Repos\ChessProject\ChessProject.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:00.61
+Time Elapsed 00:00:01.71

@@ -126,7 +126,8 @@ SDL_Rect SG_button = { 610, 0, 190, 50 };
 SDL_Rect MM_button = { 610, 90, 190, 50 };
 SDL_Rect Q_GW_button = { 610, 550, 190, 50 };
 SDL_Rect CB_logo = { 0, 0, 600, 600 };
-SDL_Rect bm_button = { 610, 180, 190, 100 };
+SDL_Rect bm_button = { 610, 230, 190, 50 };
+SDL_Rect bm_button_pvc = { 610, 180, 190, 50 };
 SDL_Rect bm_diff1 = { 610, 230, 38, 50 };
 SDL_Rect bm_diff2 = { 648, 230, 38, 50 };
 SDL_Rect bm_diff3 = { 686, 230, 38, 50 };
@@ -169,6 +170,7 @@ SDL_Rect QP_button = { 610, 325, 190, 50 };
 SDL_Rect thinking_button = { 610, 400, 200, 60 };
 
 SDL_Event event;
+int promoted = 0;
 
 /*
 * Freeing all available SDL resources
@@ -321,6 +323,18 @@ int xyInRect(int x, int y, SDL_Rect rect){
 	return ((x > rect.x) && (x < rect.x + rect.w) && (y > rect.y) && (y < rect.y + rect.h));
 }
 
+
+/*
+* Loading bitmaps function only if surface does not already exist
+*/
+SDL_Surface *safe_load_image(char* filename, SDL_Surface* surface) {
+	if (surface != NULL) {
+		return surface;
+	}
+	return load_image(filename);
+}
+
+
 /*
 * Loading bitmaps function
 */
@@ -336,7 +350,6 @@ SDL_Surface *load_image(char* filename)
 
 	//Load the image
 	loadedImage = SDL_LoadBMP(full_path);
-
 	free(full_path);
 
 	//If nothing went wrong in loading the image
@@ -369,16 +382,17 @@ char* concat(char* s1, char* s2)
 	return result;
 }
 
+
 /*
 * Loading Main window
 */
 void loadMainWindow(){
 	//Load the images 
-	chess_logo = load_image("chesslogo.bmp");
-	background = load_image("background.bmp");
-	quit_game_button = load_image("quit.bmp");
-	new_game_button = load_image("newgame.bmp");
-	load_game_button = load_image("loadgame.bmp");
+	chess_logo = safe_load_image("chesslogo.bmp", chess_logo);
+	background = safe_load_image("background.bmp", background);
+	quit_game_button = safe_load_image("quit.bmp", quit_game_button);
+	new_game_button = safe_load_image("newgame.bmp", new_game_button);
+	load_game_button = safe_load_image("loadgame.bmp", load_game_button);
 	//Set the window caption
 	SDL_WM_SetCaption("Main Window", NULL);
 	//Check if bitmap loading have succeeded
@@ -456,20 +470,20 @@ void loadPlayersSelectionWindow(){
 	apply_surface(0, 0, background, screen);
 	apply_surface(250, 0, chess_logo, screen);
 	//Load the relevant images 
-	set_the_board_button = load_image("set_the_board.bmp");
-	next_player_logo = load_image("nextplayer.bmp");
-	game_mode_logo = load_image("gamemode.bmp");
-	pvc_button = load_image("pvc.bmp");
-	pvp_button = load_image("pvp.bmp");
-	pvc_s_button = load_image("pvc_s.bmp");
-	pvp_s_button = load_image("pvp_s.bmp");
-	dol_logo = load_image("dol_logo.bmp");
-	cancel_button = load_image("cancel.bmp");
-	black_button = load_image("black.bmp");
-	white_button = load_image("white.bmp");
-	white_s_button = load_image("white_s.bmp");
-	black_s_button = load_image("black_s.bmp");
-	start_the_game_button = load_image("start_the_game.bmp");
+	set_the_board_button = safe_load_image("set_the_board.bmp", set_the_board_button);
+	next_player_logo = safe_load_image("nextplayer.bmp", next_player_logo);
+	game_mode_logo = safe_load_image("gamemode.bmp", game_mode_logo);
+	pvc_button = safe_load_image("pvc.bmp", pvc_button);
+	pvp_button = safe_load_image("pvp.bmp", pvp_button);
+	pvc_s_button = safe_load_image("pvc_s.bmp", pvc_s_button);
+	pvp_s_button = safe_load_image("pvp_s.bmp", pvp_s_button);
+	dol_logo = safe_load_image("dol_logo.bmp", dol_logo);
+	cancel_button = safe_load_image("cancel.bmp", cancel_button);
+	black_button = safe_load_image("black.bmp", black_button);
+	white_button = safe_load_image("white.bmp", white_button);
+	white_s_button = safe_load_image("white_s.bmp", white_s_button);
+	black_s_button = safe_load_image("black_s.bmp", black_s_button);
+	start_the_game_button = safe_load_image("start_the_game.bmp", start_the_game_button);
 	//Set the window caption
 	SDL_WM_SetCaption("Player Selection Window", NULL);
 	//Check if bitmap loading have succeeded
@@ -768,23 +782,23 @@ void loadAISettingsWindow(){
 	apply_surface(0, 0, background, screen);
 	apply_surface(250, 0, chess_logo, screen);
 	//Load the relevant images 
-	difficulty_logo = load_image("difficulty.bmp");
-	player_col_logo = load_image("player_color.bmp");
-	depth_1_button = load_image("1.bmp");
-	depth_1_s_button = load_image("1_s.bmp");
-	depth_2_button = load_image("2.bmp");
-	depth_2_s_button = load_image("2_s.bmp");
-	depth_3_button = load_image("3.bmp");
-	depth_3_s_button = load_image("3_s.bmp");
-	depth_4_button = load_image("4.bmp");
-	depth_4_s_button = load_image("4_s.bmp");
-	black_button = load_image("black.bmp");
-	white_button = load_image("white.bmp");
-	white_s_button = load_image("white_s.bmp");
-	black_s_button = load_image("black_s.bmp");
-	best_depth_button = load_image("best.bmp");
-	best_depth_s_button = load_image("best_s.bmp");
-	click_tr_button = load_image("click_tr.bmp");
+	difficulty_logo = safe_load_image("difficulty.bmp", difficulty_logo);
+	player_col_logo = safe_load_image("player_color.bmp", player_col_logo);
+	depth_1_button = safe_load_image("1.bmp", depth_1_button);
+	depth_1_s_button = safe_load_image("1_s.bmp", depth_1_s_button);
+	depth_2_button = safe_load_image("2.bmp", depth_2_button);
+	depth_2_s_button = safe_load_image("2_s.bmp", depth_2_s_button);
+	depth_3_button = safe_load_image("3.bmp", depth_3_button);
+	depth_3_s_button = safe_load_image("3_s.bmp", depth_3_s_button);
+	depth_4_button = safe_load_image("4.bmp", depth_4_button);
+	depth_4_s_button = safe_load_image("4_s.bmp", depth_4_s_button);
+	black_button = safe_load_image("black.bmp", black_button);
+	white_button = safe_load_image("white.bmp", white_button);
+	white_s_button = safe_load_image("white_s.bmp", white_s_button);
+	black_s_button = safe_load_image("black_s.bmp", black_s_button);
+	best_depth_button = safe_load_image("best.bmp", best_depth_button);
+	best_depth_s_button = safe_load_image("best_s.bmp", best_depth_s_button);
+	click_tr_button = safe_load_image("click_tr.bmp", click_tr_button);
 
 	//Set the window caption
 	SDL_WM_SetCaption("AI Settings Window", NULL);
@@ -972,26 +986,26 @@ void loadBoardSettingWindow(){
 		exit(1);
 	}
 	//Load the relevant images 
-	chessboard = load_image("chessboard.bmp");
-	WK = load_image("WK.bmp");
-	WN = load_image("WN.bmp");
-	WB = load_image("WB.bmp");
-	WQ = load_image("WQ.bmp");
-	WP = load_image("WP.bmp");
-	WR = load_image("WR.bmp");
-	BK = load_image("BK.bmp");
-	BN = load_image("BN.bmp");
-	BB = load_image("BB.bmp");
-	BQ = load_image("BQ.bmp");
-	BP = load_image("BP.bmp");
-	BR = load_image("BR.bmp");
-	WS = load_image("WS.bmp");
-	BS = load_image("BS.bmp");
-	wb_init_logo = load_image("wb_init.bmp");
-	wrong_piece_logo = load_image("wrong_piece.bmp");
+	chessboard = safe_load_image("chessboard.bmp", chessboard);
+	WK = safe_load_image("WK.bmp",WK);
+	WN = safe_load_image("WN.bmp",WN);
+	WB = safe_load_image("WB.bmp",WB);
+	WQ = safe_load_image("WQ.bmp",WQ);
+	WP = safe_load_image("WP.bmp",WP);
+	WR = safe_load_image("WR.bmp",WR);
+	BK = safe_load_image("BK.bmp",BK);
+	BN = safe_load_image("BN.bmp",BN);
+	BB = safe_load_image("BB.bmp",BB);
+	BQ = safe_load_image("BQ.bmp",BQ);
+	BP = safe_load_image("BP.bmp",BP);
+	BR = safe_load_image("BR.bmp",BR);
+	WS = safe_load_image("WS.bmp",WS);
+	BS = safe_load_image("BS.bmp",BS);
+	wb_init_logo = safe_load_image("wb_init.bmp", wb_init_logo);
+	wrong_piece_logo = safe_load_image("wrong_piece.bmp", wrong_piece_logo);
 
-	set_and_ret_button = load_image("setandreturn.bmp");
-	clear_button = load_image("clear.bmp");
+	set_and_ret_button = safe_load_image("setandreturn.bmp", set_and_ret_button);
+	clear_button = safe_load_image("clear.bmp",clear_button);
 
 	safe_SDL_SetColorKey(WP, 255, 255, 255);
 	safe_SDL_SetColorKey(WN, 255, 255, 255);
@@ -1257,24 +1271,24 @@ void loadSaveGameOrLoadGameWindow(int save_bit){
 	apply_surface(250, 0, chess_logo, screen);
 	//Load the relevant images 
 	if (save_bit){
-		click_ts_logo = load_image("click_ts.bmp");
-		game_saved_logo = load_image("game_saved.bmp");
+		click_ts_logo = safe_load_image("click_ts.bmp",click_ts_logo);
+		game_saved_logo = safe_load_image("game_saved.bmp", game_saved_logo);
 		SDL_WM_SetCaption("Save Game Window", NULL);
 	}
 	else{
-		click_tl_logo = load_image("click_tl.bmp");
-		ns_logo = load_image("nothing_saved.bmp");
+		click_tl_logo = safe_load_image("click_tl.bmp", click_tl_logo);
+		ns_logo = safe_load_image("nothing_saved.bmp", ns_logo);
 		SDL_WM_SetCaption("Load Game Window", NULL);
 	}
 
-	slot1_button = load_image("slot1.bmp");
-	slot2_button = load_image("slot2.bmp");
-	slot3_button = load_image("slot3.bmp");
-	slot4_button = load_image("slot4.bmp");
-	slot5_button = load_image("slot5.bmp");
-	slot6_button = load_image("slot6.bmp");
-	slot7_button = load_image("slot7.bmp");
-	click_tr_button = load_image("click_tr.bmp");
+	slot1_button = safe_load_image("slot1.bmp", slot1_button);
+	slot2_button = safe_load_image("slot2.bmp", slot2_button);
+	slot3_button = safe_load_image("slot3.bmp", slot3_button);
+	slot4_button = safe_load_image("slot4.bmp", slot4_button);
+	slot5_button = safe_load_image("slot5.bmp", slot5_button);
+	slot6_button = safe_load_image("slot6.bmp", slot6_button);
+	slot7_button = safe_load_image("slot7.bmp", slot7_button);
+	click_tr_button = safe_load_image("click_tr.bmp", click_tr_button);
 	//Check if bitmap loading have succeeded
 	if (save_bit){
 		if (click_ts_logo == NULL || slot1_button == NULL || slot2_button == NULL || slot3_button == NULL || slot4_button == NULL || slot5_button == NULL
@@ -1697,11 +1711,11 @@ void actualGUIBoardUpdate(move* current_move, char curr_board[BOARD_SIZE][BOARD_
 			exit(1);
 		}
 		//Load the relevant images 
-		knight_p = load_image("knight_p.bmp");
-		bishop_p = load_image("bishop_p.bmp");
-		queen_p = load_image("queen_p.bmp");
-		rook_p = load_image("rook_p.bmp");
-		choose_p = load_image("choose_p.bmp");
+		knight_p = safe_load_image("knight_p.bmp",knight_p);
+		bishop_p = safe_load_image("bishop_p.bmp", bishop_p);
+		queen_p = safe_load_image("queen_p.bmp", queen_p);
+		rook_p = safe_load_image("rook_p.bmp", rook_p);
+		choose_p = safe_load_image("choose_p.bmp", choose_p);
 
 		//Check if bitmap loading have succeeded
 		if (knight_p == NULL || bishop_p == NULL || queen_p == NULL || rook_p == NULL || choose_p == NULL)
@@ -1728,7 +1742,7 @@ void actualGUIBoardUpdate(move* current_move, char curr_board[BOARD_SIZE][BOARD_
 		//The mouse offsets
 		int x = 0, y = 0;
 		int running = 1;
-
+		int prom_checked = 0;
 		while (running){
 			while (SDL_PollEvent(&event))
 			{
@@ -1744,39 +1758,45 @@ void actualGUIBoardUpdate(move* current_move, char curr_board[BOARD_SIZE][BOARD_
 						if (xyInRect(x, y, KP_button))
 						{
 							curr_board[next_y][next_x] = (playing_color == 'W') ? WHITE_N : BLACK_N;
-							running = 0;
+							prom_checked = 1;
 						}
 						//If Rook Prom. button was clicked
 						if (xyInRect(x, y, RP_button))
 						{
 							curr_board[next_y][next_x] = (playing_color == 'W') ? WHITE_R : BLACK_R;
-							running = 0;
+							prom_checked = 1;
 						}
 						//If Queen Prom. button was clicked
 						if (xyInRect(x, y, QP_button))
 						{
 							curr_board[next_y][next_x] = (playing_color == 'W') ? WHITE_Q : BLACK_Q;
-							running = 0;
+							prom_checked = 1;
 						}
 						//If Bishop Prom. button was clicked
 						if (xyInRect(x, y, BP_button))
 						{
 							curr_board[next_y][next_x] = (playing_color == 'W') ? WHITE_B : BLACK_B;
-							running = 0;
+							prom_checked = 1;
 						}
 
 					}
 
 				}
-			}
-			//If the user has Xed out the window
-			if (event.type == SDL_QUIT)
-			{
-				//Quit the program
-				freeAll();
-				//Quit SDL
-				SDL_Quit();
-				exit(0);
+				else if (event.type == SDL_MOUSEBUTTONUP){
+					if (prom_checked){
+						running = 0;
+					}
+				}
+
+				//If the user has Xed out the window
+				else if (event.type == SDL_QUIT)
+				{
+					//Quit the program
+					freeAll();
+					//Quit SDL
+					SDL_Quit();
+					exit(0);
+				}
 			}
 		}
 		if (SDL_FillRect(screen, 0, 0) != 0) {
@@ -1790,14 +1810,16 @@ void actualGUIBoardUpdate(move* current_move, char curr_board[BOARD_SIZE][BOARD_
 		//Apply the save game button to the screen
 		apply_surface(610, 0, savegame_button, screen);
 		//Apply the main menu button to the screen
-		apply_surface(610, 100, mainmenu_button, screen);
+		apply_surface(610, 90, mainmenu_button, screen);
 		//Apply the best move  button to the screen
-		apply_surface(610, 200, bestmove_button, screen);
+		apply_surface(610, 180, bestmove_button, screen);
 		//Apply the last move  button to the screen
-		apply_surface(610, 250, last_move_button, screen);
+		apply_surface(610, 320, last_move_button, screen);
 		//Apply the quit game button to the screen
 		apply_surface(610, 550, quit_game_button, screen);
+		//Drawing the pieces as they appear on the board
 		drawboard();
+		promoted = 1;
 	}
 	else{
 		curr_board[next_y][next_x] = curr_board[curr_y][curr_x];
@@ -1847,48 +1869,49 @@ void loadGameWindow(){
 		exit(1);
 	}
 	//Load the relevant images 
-	chessboard = load_image("chessboard.bmp");
-	mainmenu_button = load_image("mainmenu.bmp");
-	savegame_button = load_image("savegame.bmp");
-	quit_game_button = load_image("quit.bmp");
-	bestmove_button = load_image("best_move.bmp");
-	thinking_label = load_image("thinking.bmp");
-	last_move_button = load_image("last_move.bmp");
-	WK = load_image("WK.bmp");
-	WN = load_image("WN.bmp");
-	WB = load_image("WB.bmp");
-	WQ = load_image("WQ.bmp");
-	WP = load_image("WP.bmp");
-	WR = load_image("WR.bmp");
-	BK = load_image("BK.bmp");
-	BN = load_image("BN.bmp");
-	BB = load_image("BB.bmp");
-	BQ = load_image("BQ.bmp");
-	BP = load_image("BP.bmp");
-	BR = load_image("BR.bmp");
-	WS = load_image("WS.bmp");
-	BS = load_image("BS.bmp");
+	chessboard = safe_load_image("chessboard.bmp", chessboard);
+	mainmenu_button = safe_load_image("mainmenu.bmp", mainmenu_button);
+	savegame_button = safe_load_image("savegame.bmp", savegame_button);
+	quit_game_button = safe_load_image("quit.bmp", quit_game_button);
+	SDL_FreeSurface(bestmove_button);
+	bestmove_button = (game_mode==2) ? load_image("best_move_pvc.bmp"):load_image("best_move.bmp");
+	thinking_label = safe_load_image("thinking.bmp", thinking_label);
+	last_move_button = safe_load_image("last_move.bmp", last_move_button);
+	WK = safe_load_image("WK.bmp", WK);
+	WN = safe_load_image("WN.bmp", WN);
+	WB = safe_load_image("WB.bmp", WB);
+	WQ = safe_load_image("WQ.bmp", WQ);
+	WP = safe_load_image("WP.bmp", WP);
+	WR = safe_load_image("WR.bmp", WR);
+	BK = safe_load_image("BK.bmp", BK);
+	BN = safe_load_image("BN.bmp", BN);
+	BB = safe_load_image("BB.bmp", BB);
+	BQ = safe_load_image("BQ.bmp", BQ);
+	BP = safe_load_image("BP.bmp", BP);
+	BR = safe_load_image("BR.bmp", BR);
+	WS = safe_load_image("WS.bmp", WS);
+	BS = safe_load_image("BS.bmp", BS);
 
-	WK_S = load_image("WK_S.bmp");
-	WN_S = load_image("WN_S.bmp");
-	WB_S = load_image("WB_S.bmp");
-	WQ_S = load_image("WQ_S.bmp");
-	WP_S = load_image("WP_S.bmp");
-	WR_S = load_image("WR_S.bmp");
-	BK_S = load_image("BK_S.bmp");
-	BN_S = load_image("BN_S.bmp");
-	BB_S = load_image("BB_S.bmp");
-	BQ_S = load_image("BQ_S.bmp");
-	BP_S = load_image("BP_S.bmp");
-	BR_S = load_image("BR_S.bmp");
-	WS_S = load_image("WS_S.bmp");
-	BS_S = load_image("BS_S.bmp");
+	WK_S = safe_load_image("WK_S.bmp", WK_S);
+	WN_S = safe_load_image("WN_S.bmp", WN_S);
+	WB_S = safe_load_image("WB_S.bmp", WB_S);
+	WQ_S = safe_load_image("WQ_S.bmp", WQ_S);
+	WP_S = safe_load_image("WP_S.bmp", WP_S);
+	WR_S = safe_load_image("WR_S.bmp", WR_S);
+	BK_S = safe_load_image("BK_S.bmp", BK_S);
+	BN_S = safe_load_image("BN_S.bmp", BN_S);
+	BB_S = safe_load_image("BB_S.bmp", BB_S);
+	BQ_S = safe_load_image("BQ_S.bmp", BQ_S);
+	BP_S = safe_load_image("BP_S.bmp", BP_S);
+	BR_S = safe_load_image("BR_S.bmp", BR_S);
+	WS_S = safe_load_image("WS_S.bmp", WS_S);
+	BS_S = safe_load_image("BS_S.bmp", BS_S);
 
-	check_logo = load_image("check.bmp");
-	mate_w_logo = load_image("mate_w.bmp");
-	mate_b_logo = load_image("mate_b.bmp");
-	tie_logo = load_image("tie.bmp");
-	illegal_move_logo = load_image("illegal_move.bmp");
+	check_logo = safe_load_image("check.bmp", check_logo);
+	mate_w_logo = safe_load_image("mate_w.bmp", mate_w_logo);
+	mate_b_logo = safe_load_image("mate_b.bmp", mate_b_logo);
+	tie_logo = safe_load_image("tie.bmp", tie_logo);
+	illegal_move_logo = safe_load_image("illegal_move.bmp", illegal_move_logo);
 	safe_SDL_SetColorKey(WP, 255, 255, 255);
 	safe_SDL_SetColorKey(WN, 255, 255, 255);
 	safe_SDL_SetColorKey(WB, 255, 255, 255);
@@ -2035,6 +2058,7 @@ void loadGameWindow(){
 						game_mode = 1;
 						user_color = 'W';
 						next_player = 'W';
+						freeMoves(last_move);
 						init_board();
 						loadMainWindow();
 					}
@@ -2043,30 +2067,44 @@ void loadGameWindow(){
 						//Quit button was pressed
 						running = 0;
 					}
-					if (xyInRect(x, y, bm_button) && !game_over && !(!player1 && !player2))
+					if (xyInRect(x, y, bm_button) && !game_over && !(!player1 && !player2) && (game_mode == 1))
 					{
 						if (xyInRect(x, y, bm_diff1)) {
 							minimax_depth = 1;
-							best_move_pressed = 1;
 						}
 						else if (xyInRect(x, y, bm_diff2)) {
 							minimax_depth = 2;
-							best_move_pressed = 1;
 						}
 						else if (xyInRect(x, y, bm_diff3)) {
 							minimax_depth = 3;
-							best_move_pressed = 1;
 						}
 						else if (xyInRect(x, y, bm_diff4)) {
 							minimax_depth = 4;
-							best_move_pressed = 1;
 						}
 						else if (xyInRect(x, y, bm_diff_best)) {
 							minimax_depth = 0;
-							best_move_pressed = 1;
 						}
-						// user chose a difficulty and asked for the best move
-						if (best_move_pressed){
+						
+						playing_color = playingColor(player1, player2);
+						apply_surface(610, 400, thinking_label, screen);
+						safe_SDL_Flip(screen);
+						if (SDL_FillRect(screen, &thinking_button, 0x000000) != 0) {
+							printf("ERROR: failed to draw rect: %s\n", SDL_GetError());
+							freeAll();
+							SDL_Quit();
+							exit(1);
+						}
+						best_poss_moves = getBestMoves(playing_color);
+						//draw the move on the gui board
+						drawSelectedPieces(playing_color, best_poss_moves->head);
+						SDL_Delay(2000);
+						drawboard();
+						freeMoves(best_poss_moves->head);
+						free(best_poss_moves);
+							
+					}
+					else if (xyInRect(x, y, bm_button_pvc) && !game_over && !(!player1 && !player2) && (game_mode == 2)){
+						if (!best_move_pressed){
 							playing_color = playingColor(player1, player2);
 							apply_surface(610, 400, thinking_label, screen);
 							safe_SDL_Flip(screen);
@@ -2076,14 +2114,13 @@ void loadGameWindow(){
 								SDL_Quit();
 								exit(1);
 							}
+							best_move_pressed = 1;
 							best_poss_moves = getBestMoves(playing_color);
-							//draw the move on the gui board
-							drawSelectedPieces(playing_color, best_poss_moves->head);
-							SDL_Delay(2000);
-							drawboard();
-							freeMoves(best_poss_moves->head);
-							free(best_poss_moves);
 						}
+						//draw the move on the gui board
+						drawSelectedPieces(playing_color, best_poss_moves->head);
+						SDL_Delay(2000);
+						drawboard();
 					
 					}
 					if (xyInRect(x, y, lm_button) && !game_over && last_move != NULL){
@@ -2103,7 +2140,7 @@ void loadGameWindow(){
 					}
 				}
 			}
-			if (event.type == SDL_MOUSEBUTTONUP){
+			else if (event.type == SDL_MOUSEBUTTONUP){
 				if (event.button.button == SDL_BUTTON_LEFT){
 					if (xyInRect(x, y, CB_logo))
 					{
@@ -2128,8 +2165,11 @@ void loadGameWindow(){
 				running = 0;
 			}
 
-			if ((Mcol > 'h' || Scol > 'h') || (Mcol < 'a' || Scol < 'a') || (Mrow > 8 || Srow > 8) || (Mrow < 1 || Srow < 1)){
+			if (((Mcol > 'h' || Scol > 'h') || (Mcol < 'a' || Scol < 'a') || (Mrow > 8 || Srow > 8) || (Mrow < 1 || Srow < 1)) && (!promoted)){
 				continue;
+			}
+			if (promoted) {
+				promoted = 0;
 			}
 
 			if (button_down && button_up && !game_over){
@@ -2142,6 +2182,11 @@ void loadGameWindow(){
 					int board_updated = updateGuiBoard(current_move, playing_color);
 					
 					if (board_updated) {
+						if (best_move_pressed){
+							freeMoves(best_poss_moves->head);
+							free(best_poss_moves);
+							best_move_pressed = 0;
+						}
 						freeMoves(last_move);
 						last_move = current_move;
 						drawboard();
@@ -2214,6 +2259,7 @@ void loadGameWindow(){
 		}
 	}
 	freeAll();
+	freeMoves(last_move);
 	free(white_kingpos);
 	free(black_kingpos);
 	//Quit SDL

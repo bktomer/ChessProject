@@ -9,6 +9,7 @@
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
+extern int promoted;
 /*
 * Freeing all available SDL resources
 */
@@ -29,6 +30,10 @@ void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination);
 * Detecting whether the given coordinates are in a specified Rect
 */
 int xyInRect(int x, int y, SDL_Rect rect);
+/*
+* Loading bitmaps function only if surface does not already exist
+*/
+SDL_Surface *safe_load_image(char* filename, SDL_Surface* surface);
 /*
 * Loading bitmaps function
 */

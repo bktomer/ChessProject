@@ -13,8 +13,8 @@ int main(int argc, char* argv[]){
 	      	init_board();
 			initSDL();
 			loadMainWindow();
-		    freeAll();
-			SDL_Quit();
+		    //freeAll();
+			//SDL_Quit();
 		//}
 	//}
 	//else{
