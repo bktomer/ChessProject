@@ -1,8 +1,10 @@
-﻿Build started 06/10/2015 18:14:28.
+﻿Build started 07/10/2015 02:24:04.
      1>Project "C:\Users\Tomer\Source\Repos\ChessProject\ChessProject.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Visual Studio\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm- /EHsc /MD /GS /Gy /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt gameflow.c
-         gameflow.c
+         D:\Visual Studio\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm- /EHsc /MD /GS /Gy /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt gui.c main.c minimax.c
+         gui.c
+         main.c
+         minimax.c
        Link:
          D:\Visual Studio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Tomer\Source\Repos\ChessProject\Release\ChessProject.exe" /NOLOGO /LIBPATH:"D:\Libraries\zlib-1.2.5\lib" /LIBPATH:"D:\Libraries\iconv-1.9.2.win32\lib" /LIBPATH:"D:\Libraries\SDL-1.2.15\lib" /LIBPATH:"D:\Libraries\libxml2-2.7.8.win32\lib" "D:\Libraries\SDL-1.2.15\lib\x86\SDL.lib" "D:\Libraries\SDL-1.2.15\lib\x86\SDLmain.lib" "D:\Libraries\zlib-1.2.5\lib\zdll.lib" "D:\Libraries\zlib-1.2.5\lib\zlib.lib" "D:\Libraries\libxml2-2.7.8.win32\lib\libxml2.lib" "D:\Libraries\libxml2-2.7.8.win32\lib\libxml2_a.lib" "D:\Libraries\libxml2-2.7.8.win32\lib\libxml2_a_dll.lib" "D:\Libraries\iconv-1.9.2.win32\lib\iconv.lib" "D:\Libraries\iconv-1.9.2.win32\lib\iconv_a.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Tomer\Source\Repos\ChessProject\Release\ChessProject.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Tomer\Source\Repos\ChessProject\Release\ChessProject.lib" /MACHINE:X86 /SAFESEH Release\chesslogic.obj
          Release\gameflow.obj
@@ -16,4 +18,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.71
+Time Elapsed 00:00:02.32

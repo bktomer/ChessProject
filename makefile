@@ -1,9 +1,6 @@
 TARGET:= chessprog
 O_FILES:= minimax.o gui.o gameflow.o chesslogic.o main.o
 
-vpath %.c src
-vpath %.h src
-
 all: $(TARGET)
 
 $(TARGET): $(O_FILES)

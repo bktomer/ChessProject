@@ -44,7 +44,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>D:\Libraries\zlib-1.2.5\include;D:\Libraries\SDL-1.2.15\include;D:\Libraries\libxml2-2.7.8.win32\include;D:\Libraries\iconv-1.9.2.win32\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Libraries\zlib-1.2.5\lib;D:\Libraries\iconv-1.9.2.win32\lib;D:\Libraries\libxml2-2.7.8.win32\lib;D:\Libraries\SDL-1.2.15\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -73,8 +73,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL.lib;SDLmain.lib;zdll.lib;zlib.lib;libxml2.lib;libxml2_a.lib;libxml2_a_dll.lib;iconv.lib;iconv_a.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>"D:\Libraries\SDL-1.2.15\lib\x86\SDL.lib";"D:\Libraries\SDL-1.2.15\lib\x86\SDLmain.lib";"D:\Libraries\zlib-1.2.5\lib\zdll.lib";"D:\Libraries\zlib-1.2.5\lib\zlib.lib";"D:\Libraries\libxml2-2.7.8.win32\lib\libxml2.lib";"D:\Libraries\libxml2-2.7.8.win32\lib\libxml2_a.lib";"D:\Libraries\libxml2-2.7.8.win32\lib\libxml2_a_dll.lib";"D:\Libraries\iconv-1.9.2.win32\lib\iconv.lib";"D:\Libraries\iconv-1.9.2.win32\lib\iconv_a.lib";%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Libraries\zlib-1.2.5\lib;D:\Libraries\iconv-1.9.2.win32\lib;D:\Libraries\SDL-1.2.15\lib;D:\Libraries\libxml2-2.7.8.win32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="chesslogic.c" />
